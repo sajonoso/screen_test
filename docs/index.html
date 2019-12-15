@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Screen test page</title>
+  <meta name="description" content="HTML page to test a monitor screen">
+  <meta name="author" content="sajonoso@users.noreply.github.com">
+
+  <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+  <style>
+    .fullscreen {
+      width: 100vw;
+      height: 100vh;
+      padding: 0;
+      margin: 0;
+    }
+
+    .noscroll {
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+
+    #page1 {
+      background-color: rgb(255, 0, 0);
+    }
+
+    #page2 {
+      background-color: rgb(0, 255, 0);
+    }
+
+    #page3 {
+      background-color: rgb(0, 0, 255);
+    }
+
+    #page4 {
+      background-color: rgb(0, 0, 0);
+    }
+
+    #page5 {
+      background-color: rgb(255, 255, 255);
+    }
+
+    #gradient1 {
+      width: 100vw;
+      height: 50vh;
+      background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
+    }
+
+    #gradient2 {
+      width: 100vw;
+      height: 50vh;
+      background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(0, 0, 0) 100%);
+    }
+
+    #gradient3 {
+      width: 50vw;
+      height: 100vh;
+      background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%);
+      float: left;
+      display: inline-block;
+    }
+
+    #gradient4 {
+      width: 50vw;
+      height: 100vh;
+      background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(0, 0, 0) 100%);
+      display: inline-block;
+    }
+  </style>
+
+</head>
+
+<body id="doc_body" class='fullscreen noscroll'>
+  <!-- <script src="js/scripts.js"></script> -->
+  <div id='page0' class='fullscreen noscroll'>
+    <pre>
+    Test screen version 1.0
+  
+    This is a screen test page.  Cycle through each test screen with the left and right arrow keys.
+    Pressing Enter will toggle the browser fullscreen.  Up arrow will bring you back to this page.
+    The test screens are shown in this order:
+
+    1. Full red screen
+    2. Full green screen
+    3. Full blue screen
+    4. Full black screen
+    5. Full white screen
+    6. Pattern1 (lines)
+    7. Pattern2 (horizontal gradients)
+    7. Pattern3 (vertical gradients)
+
+    </pre>
+  </div>
+  <div id='page1' class='fullscreen noscroll'></div>
+  <div id='page2' class='fullscreen noscroll'></div>
+  <div id='page3' class='fullscreen noscroll'></div>
+  <div id='page4' class='fullscreen noscroll'></div>
+  <div id='page5' class='fullscreen noscroll'></div>
+  <div id='page6' class='fullscreen noscroll'>
+    <svg id="testpattern" height="100vh" width="100vw">
+      <rect x="0" y="0" width="100vw" height="100vh" style="fill:transparent;stroke:rgb(0,0,255);stroke-width:1;fill-opacity:0;stroke-opacity:1" />
+      <circle cx="50vw" cy="50vh" r="50vh" stroke="blue" stroke-width="1" fill="transparent" />
+      <circle cx="50vw" cy="50vh" r="50vw" stroke="green" stroke-width="1" fill="transparent" />
+
+      <circle cx="50vw" cy="50vh" r="1cm" stroke="red" stroke-width="1" fill="transparent" />
+      <circle cx="50vw" cy="50vh" r="2cm" stroke="red" stroke-width="1" fill="transparent" />
+      <circle cx="50vw" cy="50vh" r="3cm" stroke="red" stroke-width="1" fill="transparent" />
+
+      <line x1="0" y1="0" x2="100vw" y2="100vh" style="stroke:rgb(0,0,255);stroke-width:1" />
+      <line x1="100vw" y1="0" x2="0" y2="100vh" style="stroke:rgb(0,0,255);stroke-width:1" />
+
+      <line x1="50vw" y1="0" x2="50vw" y2="100vh" style="stroke:rgb(0,0,255);stroke-width:1" />
+      <line x1="0" y1="50vh" x2="100vw" y2="50vh" style="stroke:rgb(0,0,255);stroke-width:1" />
+    </svg>
+  </div>
+  <div id='page7' class='fullscreen noscroll'>
+    <div id='gradient1'></div>
+    <div id='gradient2'></div>
+  </div>
+  <div id='page8' class='fullscreen noscroll'>
+    <div id='gradient3'></div>
+    <div id='gradient4'></div>
+  </div>
+
+  <script>
+    window.isFullScreen = false;
+    window.page_number = 0;
+    window.MAX_PAGES = 8;
+
+
+    const KEY_LEFT = 37;
+    const KEY_UP = 38;
+    const KEY_RIGHT = 39;
+    const KEY_ENTER = 13;
+
+    function ID(o) {
+      return document.getElementById(o);
+    }
+
+    function show_page(page_number) {
+      console.log('Showing page:', page_number);
+      for (i = 0; i < MAX_PAGES; i++) {
+        if (i !== page_number) {
+          const pageCheck = ID('page' + i)
+          if (pageCheck) pageCheck.style.display = 'none';
+        }
+      }
+
+      const pageSelected = ID('page' + page_number)
+      if (pageSelected) {
+        pageSelected.style.display = 'block';
+
+        if (page_number === 6) {
+          const cln = ID('testpattern').cloneNode(true)
+          pageSelected.innerHTML = "";
+          pageSelected.appendChild(cln);
+        }
+      }
+    }
+
+    function openFullscreen() {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        /* Firefox */
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        /* IE/Edge */
+        elem.msRequestFullscreen();
+      }
+    }
+
+    function closeFullscreen() {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        /* Firefox */
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        /* Chrome, Safari and Opera */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        /* IE/Edge */
+        document.msExitFullscreen();
+      }
+    }
+
+    function keyDownTextField(e) {
+      var keyCode = e.keyCode;
+      console.log(keyCode);
+
+      if (keyCode === KEY_ENTER) {
+        window.isFullScreen = !window.isFullScreen;
+        if (window.isFullScreen) openFullscreen();
+        if (!window.isFullScreen) closeFullscreen();
+      } else if (keyCode === KEY_LEFT) {
+        if (window.page_number > 0) {
+          window.page_number--;
+        } else {
+          window.page_number = window.MAX_PAGES;
+        }
+        show_page(window.page_number)
+      } else if (keyCode === KEY_RIGHT) {
+        if (window.page_number < window.MAX_PAGES) {
+          window.page_number++;
+        } else {
+          window.page_number = 0;
+        }
+        show_page(window.page_number)
+      } else if (keyCode === KEY_UP) {
+        window.page_number = 0;
+        show_page(window.page_number)
+      } else if (keyCode === 116) {
+        //F5
+        window.top.location = window.top.location
+      }
+
+      e.preventDefault();
+    }
+
+    document.addEventListener("keydown", keyDownTextField, false);
+  </script>
+
+</body>
+
+</html>
