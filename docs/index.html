@@ -161,21 +161,21 @@
   <div id='page4' class='fullscreen noscroll'></div>
   <div id='page5' class='fullscreen noscroll'></div>
   <div id='page6' class='fullscreen noscroll'>
-    <svg id="testpattern" height="100vh" width="100vw">
-      <rect x="0" y="0" width="100vw" height="100vh"
+    <svg id="testpattern" width="100%" height="100%">
+      <rect x="0" y="0" width="100%" height="100%"
         style="fill:transparent;stroke:rgb(0,0,255);stroke-width:1;fill-opacity:0;stroke-opacity:1" />
-      <circle cx="50vw" cy="50vh" r="50vh" stroke="blue" stroke-width="1" fill="transparent" />
-      <circle cx="50vw" cy="50vh" r="50vw" stroke="green" stroke-width="1" fill="transparent" />
+      <circle cx="50%" cy="50%" r="50vw" stroke="blue" stroke-width="1" fill="transparent" />
+      <circle cx="50%" cy="50%" r="50vh" stroke="green" stroke-width="1" fill="transparent" />
 
-      <circle cx="50vw" cy="50vh" r="1cm" stroke="red" stroke-width="1" fill="transparent" />
-      <circle cx="50vw" cy="50vh" r="2cm" stroke="red" stroke-width="1" fill="transparent" />
-      <circle cx="50vw" cy="50vh" r="3cm" stroke="red" stroke-width="1" fill="transparent" />
+      <circle cx="50%" cy="50%" r="1cm" stroke="red" stroke-width="1" fill="transparent" />
+      <circle cx="50%" cy="50%" r="2cm" stroke="red" stroke-width="1" fill="transparent" />
+      <circle cx="50%" cy="50%" r="3cm" stroke="red" stroke-width="1" fill="transparent" />
 
-      <line x1="0" y1="0" x2="100vw" y2="100vh" style="stroke:rgb(0,0,255);stroke-width:1" />
-      <line x1="100vw" y1="0" x2="0" y2="100vh" style="stroke:rgb(0,0,255);stroke-width:1" />
+      <line x1="0" y1="0" x2="100%" y2="100%" style="stroke:rgb(0,0,255);stroke-width:1" />
+      <line x1="100%" y1="0" x2="0" y2="100%" style="stroke:rgb(0,0,255);stroke-width:1" />
 
-      <line x1="50vw" y1="0" x2="50vw" y2="100vh" style="stroke:rgb(0,0,255);stroke-width:1" />
-      <line x1="0" y1="50vh" x2="100vw" y2="50vh" style="stroke:rgb(0,0,255);stroke-width:1" />
+      <line x1="50%" y1="0" x2="50%" y2="100%" style="stroke:rgb(0,0,255);stroke-width:1" />
+      <line x1="0" y1="50%" x2="100%" y2="50%" style="stroke:rgb(0,0,255);stroke-width:1" />
     </svg>
   </div>
   <div id='page7' class='fullscreen noscroll'>
@@ -322,20 +322,28 @@
 
     function updateScreenInfo() {
       html = '<ul style="list-style-type: none">';
+      html += `<li>window.screen.width: ${window.screen.width}</li>`;
+      html += `<li>window.screen.height: ${window.screen.height}</li>`;
+      html += `<li>window.screen.colorDepth: ${window.screen.colorDepth}</li>`;
+      html += `<li>window.screen.pixelDepth: ${window.screen.pixelDepth}</li>`;
+      html += `<li>window.devicePixelRatio: ${window.devicePixelRatio}</li>`;
       html += `<li>Screen Native Width: ${window.screen.width * window.devicePixelRatio}</li>`;
       html += `<li>Screen Native Height: ${window.screen.height * window.devicePixelRatio}</li>`;
-      html += `<li>Screen Pixel Ratio: ${window.devicePixelRatio}</li>`;
-      html += `<li>Screen Width: ${window.screen.width}</li>`;
-      html += `<li>Screen Height: ${window.screen.height}</li>`;
-      html += `<li>Screen Color depth: ${window.screen.colorDepth}</li>`;
-      html += `<li>Screen Pixel depth: ${window.screen.pixelDepth}</li>`;
-      html += `<li>Screen Orientation Angle: ${window.screen.orientation.angle}</li>`;
-      html += `<li>Screen Orientation Type: ${window.screen.orientation.type}</li>`;
+
+      var orientationAngle = window.orientation || (window.screen.orientation && window.screen.orientation.angle);
+      html += `<li>Screen Orientation: ${orientationAngle}</li>`;
       html += `<li>View Port Width: ${document.documentElement.clientWidth}</li>`;
       html += `<li>View Port Height: ${document.documentElement.clientHeight}</li>`;
+      html += `<li>maxTouchPoints: ${navigator.maxTouchPoints} </li>`;
       html += `<li>&nbsp;</li>`;
-      html += `<li>User agent: ${navigator.userAgent} </li>`;
-      html += `<li>Platform: ${navigator.platform} </li>`;
+      html += `<li>userAgent: ${navigator.userAgent} </li>`;
+      html += `<li>platform: ${navigator.platform} </li>`;
+      html += `<li>cookieEnabled: ${navigator.cookieEnabled} </li>`;
+      html += `<li>&nbsp;</li>`;
+      html += `<li>language: ${navigator.language} </li>`;
+      const tz = Intl && Intl.DateTimeFormat && Intl.DateTimeFormat().resolvedOptions().timeZone;
+      html += `<li>timezone: ${tz} </li>`;
+
       html += '</ul>';
 
       ID('screen-info').innerHTML = html;
